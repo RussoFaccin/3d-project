@@ -72,9 +72,14 @@ BABYLON.SceneLoader.LoadAsync(
     // scene.environmentTexture = hdrTexture;
     
     // ########## Skybox ##########
-    var hdrTexture = new BABYLON.CubeTexture("_assets/textures/env", scene);
-    hdrTexture.gammaSpace = false;
-    scene.environmentTexture = hdrTexture;
+    var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("_assets/textures/env", scene);
+    skyboxMaterial.reflectionTexture.boundingBoxSize = new BABYLON.Vector3(100, 100, 100);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.disableLighting = true;
+    skybox.material = skyboxMaterial;
 
     // ########## Physics ##########
     scene.enablePhysics(new BABYLON.Vector3(0,-10,0), new BABYLON.AmmoJSPlugin());
